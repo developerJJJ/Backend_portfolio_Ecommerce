@@ -13,35 +13,21 @@ UpMake is a minimalist, high-end e-commerce platform built for custom precision 
 
 ---
 
-## 🛠️ Admin Dashboard Usage
+## 🛍️ Storefront Features
 
-The Admin Dashboard is located at `/admin`. It allows you to manage your catalog and track production.
-
-### 1. Product Management (`/admin/products`)
-- **View Catalog:** See all your active products, categories, and base prices.
-- **Add New Product:** Use the "Add Product" button to open the creation form.
-  - **Media:** Upload multiple images (previews available).
-  - **Rich Details:** Set titles, descriptions, and categories.
-  - **Dynamic Variants:** Add options like "Material" or "Color" with specific price adjustments (e.g., +$15.00 for Resin).
-
-### 2. Order Management (`/admin/orders`)
-- **Order Tracking:** Monitor incoming orders from customers.
-- **Status Flow:** Move orders through the pipeline:
-  `Payment Confirmed` -> `In Production` -> `Quality Check` -> `Shipped`
-- **Notifications:** Updating a status triggers a mock notification to the customer email.
-
-### 3. Analytics (`/admin`)
-- View high-level stats for Revenue, Order counts, and User activity.
+### 🏠 Homepage
+*Minimalist hero section with featured collections.*
+![Homepage](./screenshots/main_page.png)
 
 ---
 
-## 🛍️ Storefront Features
+## 🛠️ Admin Dashboard Usage
 
-- **Clean UI:** A typography-focused, "white-space heavy" design inspired by San Francisco/Inter fonts.
-- **Interactive Product Pages:** Real-time price updates as customers select different variants.
-- **Slide-out Cart:** A seamless drawer experience for managing items without leaving the page.
-- **Stripe Integration:** Secure checkout flow with support for Apple Pay/Google Pay.
-- **Trust Badges:** "Made in USA" and "Fast Shipping" callouts to build customer confidence.
+The Admin Dashboard is located at `/admin`.
+
+### 📦 Product Management
+*Robust form for media uploads and variant configuration.*
+![Product Management](./screenshots/admin_products_page.png)
 
 ---
 
