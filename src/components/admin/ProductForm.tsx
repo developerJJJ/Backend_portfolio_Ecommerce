@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Trash2, Upload, X } from 'lucide-react'
+import { Plus, Trash2, Upload, X, CheckCircle2 } from 'lucide-react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -13,6 +13,7 @@ const productSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters'),
   basePrice: z.number().min(0, 'Price must be positive'),
   category: z.string().min(1, 'Category is required'),
+  hasVariants: z.boolean(),
   variants: z.array(z.object({
     name: z.string().min(1, 'Variant name required'),
     value: z.string().min(1, 'Variant value required'),
@@ -31,6 +32,8 @@ export default function ProductForm() {
     register,
     control,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -39,7 +42,8 @@ export default function ProductForm() {
       description: '',
       basePrice: 0,
       category: '',
-      variants: [{ name: '', value: '', priceAdjustment: 0 }],
+      hasVariants: false,
+      variants: [],
     },
   })
 
@@ -48,14 +52,35 @@ export default function ProductForm() {
     name: 'variants',
   })
 
+  const hasVariants = watch('hasVariants')
+
   const onSubmit = async (data: ProductFormValues) => {
     setIsSubmitting(true)
     try {
-      console.log('Submitting:', { ...data, images })
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const payload = {
+        ...data,
+        images,
+        variants: data.hasVariants ? data.variants : [],
+      }
+
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create product')
+      }
+
       router.push('/admin/products')
-    } catch (error) {
+      router.refresh()
+    } catch (error: any) {
       console.error(error)
+      alert(error.message || 'Something went wrong. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -64,6 +89,7 @@ export default function ProductForm() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (files) {
+      // For demonstration, we'll use object URLs. In a real app, you'd upload to a cloud provider
       const newImages = Array.from(files).map(file => URL.createObjectURL(file))
       setImages(prev => [...prev, ...newImages])
     }
@@ -147,49 +173,81 @@ export default function ProductForm() {
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium">Variants</label>
-              <button
-                type="button"
-                onClick={() => append({ name: '', value: '', priceAdjustment: 0 })}
-                className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline"
-              >
-                <Plus className="h-3 w-3" /> Add Variant
-              </button>
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">Variants</label>
+                <span className="text-[10px] text-gray-400 font-normal uppercase tracking-wider bg-gray-100 px-1.5 py-0.5 rounded">Optional</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="hasVariants"
+                  {...register('hasVariants')}
+                  className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+                />
+                <label htmlFor="hasVariants" className="text-xs text-gray-600 cursor-pointer">
+                  Toggle variants
+                </label>
+              </div>
             </div>
             
-            <div className="space-y-3">
-              {fields.map((field, index) => (
-                <div key={field.id} className="flex gap-2 items-start">
-                  <input
-                    {...register(`variants.${index}.name`)}
-                    placeholder="Material"
-                    className="flex-1 rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black"
-                  />
-                  <input
-                    {...register(`variants.${index}.value`)}
-                    placeholder="Resin"
-                    className="flex-1 rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black"
-                  />
-                  <div className="relative w-24">
-                    <span className="absolute left-2 top-1.5 text-xs text-gray-400">$</span>
-                    <input
-                      type="number"
-                      step="0.01"
-                      {...register(`variants.${index}.priceAdjustment`, { valueAsNumber: true })}
-                      placeholder="0.00"
-                      className="w-full rounded-md border border-gray-300 pl-5 pr-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="p-2 text-gray-400 hover:text-red-500"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+            {hasVariants ? (
+              <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="space-y-3">
+                  {fields.map((field, index) => (
+                    <div key={field.id} className="flex gap-2 items-start">
+                      <div className="flex-1 space-y-1">
+                        <input
+                          {...register(`variants.${index}.name`)}
+                          placeholder="Material"
+                          className={cn(
+                            "w-full rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black",
+                            errors.variants?.[index]?.name && "border-red-500"
+                          )}
+                        />
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <input
+                          {...register(`variants.${index}.value`)}
+                          placeholder="Resin"
+                          className={cn(
+                            "w-full rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black",
+                            errors.variants?.[index]?.value && "border-red-500"
+                          )}
+                        />
+                      </div>
+                      <div className="relative w-24">
+                        <span className="absolute left-2 top-1.5 text-xs text-gray-400">$</span>
+                        <input
+                          type="number"
+                          step="0.01"
+                          {...register(`variants.${index}.priceAdjustment`, { valueAsNumber: true })}
+                          placeholder="0.00"
+                          className="w-full rounded-md border border-gray-300 pl-5 pr-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="p-2 text-gray-400 hover:text-red-500"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+                <button
+                  type="button"
+                  onClick={() => append({ name: '', value: '', priceAdjustment: 0 })}
+                  className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline"
+                >
+                  <Plus className="h-3 w-3" /> Add Variant Row
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-lg border border-dashed p-4 flex flex-col items-center justify-center text-center bg-gray-50">
+                <p className="text-xs text-gray-400">No variants defined. Click the toggle to add options like size, color, or material.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -205,9 +263,16 @@ export default function ProductForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-lg bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
         >
-          {isSubmitting ? 'Creating...' : 'Create Product'}
+          {isSubmitting ? (
+            <>
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Creating...
+            </>
+          ) : (
+            'Create Product'
+          )}
         </button>
       </div>
     </form>
