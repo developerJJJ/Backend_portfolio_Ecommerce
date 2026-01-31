@@ -103,8 +103,8 @@ export default function ProductForm() {
             <label className="text-sm font-medium">Product Name</label>
             <input
               {...register('name')}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="e.g. Minimalist Vase"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              placeholder="e.g. Organic Trio Quinoa"
             />
             {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
           </div>
@@ -114,8 +114,8 @@ export default function ProductForm() {
             <textarea
               {...register('description')}
               rows={5}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Tell customers about your product..."
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              placeholder="Tell customers about the nutritional benefits and origin..."
             />
             {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
           </div>
@@ -127,7 +127,7 @@ export default function ProductForm() {
                 type="number"
                 step="0.01"
                 {...register('basePrice', { valueAsNumber: true })}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
               {errors.basePrice && <p className="text-xs text-red-500">{errors.basePrice.message}</p>}
             </div>
@@ -135,12 +135,14 @@ export default function ProductForm() {
               <label className="text-sm font-medium">Category</label>
               <select
                 {...register('category')}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
               >
                 <option value="">Select category</option>
-                <option value="Home Decor">Home Decor</option>
-                <option value="Art">Art</option>
-                <option value="Tech">Tech</option>
+                <option value="Superfoods">Superfoods</option>
+                <option value="Grains">Grains</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Sweeteners">Sweeteners</option>
               </select>
               {errors.category && <p className="text-xs text-red-500">{errors.category.message}</p>}
             </div>
@@ -163,7 +165,7 @@ export default function ProductForm() {
                   </button>
                 </div>
               ))}
-              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors">
+              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-emerald-50 transition-colors">
                 <Upload className="h-6 w-6 text-gray-400" />
                 <span className="mt-1 text-xs text-gray-500">Upload</span>
                 <input type="file" multiple className="hidden" onChange={handleImageUpload} accept="image/*" />
@@ -182,7 +184,7 @@ export default function ProductForm() {
                   type="checkbox"
                   id="hasVariants"
                   {...register('hasVariants')}
-                  className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+                  className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                 />
                 <label htmlFor="hasVariants" className="text-xs text-gray-600 cursor-pointer">
                   Toggle variants
@@ -198,9 +200,9 @@ export default function ProductForm() {
                       <div className="flex-1 space-y-1">
                         <input
                           {...register(`variants.${index}.name`)}
-                          placeholder="Material"
+                          placeholder="Size"
                           className={cn(
-                            "w-full rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black",
+                            "w-full rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-600",
                             errors.variants?.[index]?.name && "border-red-500"
                           )}
                         />
@@ -208,9 +210,9 @@ export default function ProductForm() {
                       <div className="flex-1 space-y-1">
                         <input
                           {...register(`variants.${index}.value`)}
-                          placeholder="Resin"
+                          placeholder="500g"
                           className={cn(
-                            "w-full rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black",
+                            "w-full rounded-md border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-600",
                             errors.variants?.[index]?.value && "border-red-500"
                           )}
                         />
@@ -222,7 +224,7 @@ export default function ProductForm() {
                           step="0.01"
                           {...register(`variants.${index}.priceAdjustment`, { valueAsNumber: true })}
                           placeholder="0.00"
-                          className="w-full rounded-md border border-gray-300 pl-5 pr-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-black"
+                          className="w-full rounded-md border border-gray-300 pl-5 pr-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-600"
                         />
                       </div>
                       <button
@@ -238,14 +240,14 @@ export default function ProductForm() {
                 <button
                   type="button"
                   onClick={() => append({ name: '', value: '', priceAdjustment: 0 })}
-                  className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline"
+                  className="flex items-center gap-1 text-xs font-medium text-emerald-600 hover:underline"
                 >
                   <Plus className="h-3 w-3" /> Add Variant Row
                 </button>
               </div>
             ) : (
               <div className="rounded-lg border border-dashed p-4 flex flex-col items-center justify-center text-center bg-gray-50">
-                <p className="text-xs text-gray-400">No variants defined. Click the toggle to add options like size, color, or material.</p>
+                <p className="text-xs text-gray-400">No variants defined. Click the toggle to add options like size or quantity.</p>
               </div>
             )}
           </div>
@@ -263,7 +265,7 @@ export default function ProductForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex items-center gap-2 rounded-lg bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-emerald-600 px-6 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
         >
           {isSubmitting ? (
             <>
@@ -271,7 +273,7 @@ export default function ProductForm() {
               Creating...
             </>
           ) : (
-            'Create Product'
+            'Create Superfood'
           )}
         </button>
       </div>

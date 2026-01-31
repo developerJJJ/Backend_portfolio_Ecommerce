@@ -18,32 +18,32 @@ export default function StoreLayout({
       <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-2xl font-bold tracking-tighter">
-              UPMAKE
+            <Link href="/" className="text-2xl font-bold tracking-tighter text-emerald-700">
+              VITALFOODS
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-              <Link href="/shop" className="hover:text-black transition-colors">Shop All</Link>
-              <Link href="/new" className="hover:text-black transition-colors">New Arrivals</Link>
-              <Link href="/about" className="hover:text-black transition-colors">Our Process</Link>
+              <Link href="/shop" className="hover:text-emerald-600 transition-colors">Shop All</Link>
+              <Link href="/new" className="hover:text-emerald-600 transition-colors">New Arrivals</Link>
+              <Link href="/nutrition" className="hover:text-emerald-600 transition-colors">Nutrition Guide</Link>
             </nav>
           </div>
           
           <div className="flex items-center gap-4">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Search className="h-5 w-5" />
+            <button className="p-2 hover:bg-emerald-50 rounded-full">
+              <Search className="h-5 w-5 text-gray-600" />
             </button>
             <button 
               onClick={() => setIsOpen(true)}
-              className="p-2 hover:bg-gray-100 rounded-full relative"
+              className="p-2 hover:bg-emerald-50 rounded-full relative"
             >
-              <ShoppingBag className="h-5 w-5" />
+              <ShoppingBag className="h-5 w-5 text-gray-600" />
               {itemCount > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white">
+                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[10px] font-bold text-white">
                   {itemCount}
                 </span>
               )}
             </button>
-            <button className="md:hidden p-2 hover:bg-gray-100 rounded-full">
+            <button className="md:hidden p-2 hover:bg-emerald-50 rounded-full text-gray-600">
               <Menu className="h-5 w-5" />
             </button>
           </div>
@@ -60,30 +60,30 @@ export default function StoreLayout({
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
-              <span className="text-xl font-bold tracking-tighter">UPMAKE</span>
+              <span className="text-xl font-bold tracking-tighter text-emerald-700">VITALFOODS</span>
               <p className="mt-4 text-sm text-gray-500 max-w-xs">
-                Premium custom-made items, crafted with precision and delivered to your door.
+                Premium organic health foods, sourced sustainably and delivered fresh to your door.
               </p>
             </div>
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider">Shop</h4>
+              <h4 className="text-sm font-bold uppercase tracking-wider text-gray-900">Shop</h4>
               <ul className="mt-4 space-y-2 text-sm text-gray-500">
-                <li><Link href="/shop" className="hover:text-black">All Products</Link></li>
-                <li><Link href="/new" className="hover:text-black">New Arrivals</Link></li>
-                <li><Link href="/featured" className="hover:text-black">Featured</Link></li>
+                <li><Link href="/shop" className="hover:text-emerald-600">All Products</Link></li>
+                <li><Link href="/new" className="hover:text-emerald-600">New Arrivals</Link></li>
+                <li><Link href="/featured" className="hover:text-emerald-600">Superfoods</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider">Support</h4>
+              <h4 className="text-sm font-bold uppercase tracking-wider text-gray-900">Support</h4>
               <ul className="mt-4 space-y-2 text-sm text-gray-500">
-                <li><Link href="/shipping" className="hover:text-black">Shipping</Link></li>
-                <li><Link href="/returns" className="hover:text-black">Returns</Link></li>
-                <li><Link href="/contact" className="hover:text-black">Contact</Link></li>
+                <li><Link href="/shipping" className="hover:text-emerald-600">Shipping</Link></li>
+                <li><Link href="/returns" className="hover:text-emerald-600">Returns</Link></li>
+                <li><Link href="/contact" className="hover:text-emerald-600">Contact</Link></li>
               </ul>
             </div>
           </div>
           <div className="mt-12 border-t pt-8 text-center text-sm text-gray-500">
-            © 2026 UpMake. All rights reserved. Made in USA.
+            © 2026 VitalFoods. All rights reserved. Sourced from organic farms.
           </div>
         </div>
       </footer>

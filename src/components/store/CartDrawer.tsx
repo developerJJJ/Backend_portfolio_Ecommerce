@@ -67,11 +67,11 @@ export default function CartDrawer() {
               </div>
               <div>
                 <p className="font-bold">Your cart is empty</p>
-                <p className="text-sm text-gray-500">Add some unique pieces to get started.</p>
+                <p className="text-sm text-gray-500">Pick some fresh superfoods to get started.</p>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="rounded-full bg-black px-8 py-2 text-sm font-bold text-white"
+                className="rounded-full bg-emerald-600 px-8 py-2 text-sm font-bold text-white hover:bg-emerald-700"
               >
                 Start Shopping
               </button>
@@ -80,45 +80,45 @@ export default function CartDrawer() {
             <div className="space-y-6">
               {items.map((item) => (
                 <div key={item.id} className="flex gap-4">
-                  <div className="h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
+                  <div className="h-24 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-gray-100 shadow-inner">
                     <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                   </div>
                   <div className="flex flex-1 flex-col justify-between py-1">
                     <div>
                       <div className="flex justify-between">
-                        <h3 className="text-sm font-bold">{item.name}</h3>
+                        <h3 className="text-sm font-bold text-emerald-900">{item.name}</h3>
                         <button 
                           onClick={() => removeItem(item.id)}
-                          className="text-xs text-gray-400 hover:text-black"
+                          className="text-xs text-gray-400 hover:text-red-500 transition-colors"
                         >
                           Remove
                         </button>
                       </div>
                       <div className="mt-1 flex flex-wrap gap-x-2 gap-y-1">
                         {Object.entries(item.variants).map(([name, value]) => (
-                          <span key={name} className="text-[10px] text-gray-500 uppercase tracking-wider">
+                          <span key={name} className="text-[10px] text-emerald-600 uppercase tracking-wider font-medium">
                             {name}: {value}
                           </span>
                         ))}
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center rounded-full border px-2 py-1">
+                      <div className="flex items-center rounded-full border border-emerald-100 px-2 py-1 bg-emerald-50/30">
                         <button 
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-1 hover:text-black text-gray-400"
+                          className="p-1 hover:text-emerald-600 text-gray-400 transition-colors"
                         >
                           <Minus className="h-3 w-3" />
                         </button>
-                        <span className="w-8 text-center text-xs font-bold">{item.quantity}</span>
+                        <span className="w-8 text-center text-xs font-bold text-emerald-900">{item.quantity}</span>
                         <button 
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-1 hover:text-black text-gray-400"
+                          className="p-1 hover:text-emerald-600 text-gray-400 transition-colors"
                         >
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
-                      <span className="font-bold text-sm">{formatPrice(item.price * item.quantity)}</span>
+                      <span className="font-bold text-sm text-emerald-700">{formatPrice(item.price * item.quantity)}</span>
                     </div>
                   </div>
                 </div>
@@ -128,26 +128,26 @@ export default function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="border-t bg-gray-50 px-6 py-6 space-y-4">
-            <div className="flex justify-between items-center font-bold">
+          <div className="border-t bg-emerald-50/50 px-6 py-6 space-y-4">
+            <div className="flex justify-between items-center font-bold text-emerald-900">
               <span>Subtotal</span>
               <span>{formatPrice(subtotal)}</span>
             </div>
             <p className="text-xs text-gray-500 text-center">
-              Shipping and taxes calculated at checkout.
+              Shipping and nutrients calculated at checkout.
             </p>
             <button 
               onClick={handleCheckout}
               disabled={isCheckingOut || items.length === 0}
-              className="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-900 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full bg-emerald-600 text-white py-4 rounded-full font-bold hover:bg-emerald-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-emerald-200"
             >
               {isCheckingOut ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Processing...
+                  Processing Order...
                 </>
               ) : (
-                'Checkout'
+                'Proceed to Checkout'
               )}
             </button>
           </div>

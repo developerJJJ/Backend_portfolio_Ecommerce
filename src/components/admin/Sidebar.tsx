@@ -25,8 +25,8 @@ export default function Sidebar() {
   return (
     <div className="flex h-full w-64 flex-col border-r bg-white">
       <div className="flex h-16 items-center border-b px-6">
-        <Link href="/admin" className="text-xl font-bold tracking-tight">
-          UpMake <span className="text-sm font-normal text-muted-foreground">Admin</span>
+        <Link href="/admin" className="text-xl font-bold tracking-tight text-emerald-700">
+          VitalFoods <span className="text-xs font-normal text-gray-400">Admin</span>
         </Link>
       </div>
       <nav className="flex-1 space-y-1 px-4 py-4">
@@ -37,10 +37,10 @@ export default function Sidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                 isActive 
-                  ? 'bg-black text-white' 
-                  : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-100' 
+                  : 'text-gray-500 hover:bg-emerald-50 hover:text-emerald-700'
               )}
             >
               <item.icon className="h-4 w-4" />
